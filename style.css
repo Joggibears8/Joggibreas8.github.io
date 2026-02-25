@@ -1,0 +1,768 @@
+/* ========================================
+   FRA Flight Tracker — Design System
+   ======================================== */
+
+:root {
+    /* Color palette — aviation-inspired medium theme */
+    --bg-primary: #1e293b;
+    --bg-secondary: #1e293b;
+    --bg-card: #334155;
+    --bg-card-hover: #3b4f6b;
+    --bg-glass: rgba(30, 41, 59, 0.88);
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+
+    /* Runway colors */
+    --runway-25r: #3b82f6;
+    --runway-25l: #10b981;
+    --runway-07l: #f59e0b;
+    --runway-07r: #ef4444;
+    --runway-other: #8b5cf6;
+    --runway-unknown: #5b6478;
+
+    --border-color: rgba(255, 255, 255, 0.12);
+    --border-glow: rgba(59, 130, 246, 0.35);
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 400ms ease;
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+    --bg-primary: #f0f4f8;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --bg-glass: rgba(255, 255, 255, 0.92);
+
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+
+    --border-color: rgba(0, 0, 0, 0.1);
+    --border-glow: rgba(59, 130, 246, 0.25);
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* ========================================
+   Reset & Base
+   ======================================== */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* ========================================
+   Header
+   ======================================== */
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 56px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-cyan);
+}
+
+.logo h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+    padding-left: 16px;
+    border-left: 1px solid var(--border-color);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Configuration badge */
+.config-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent-blue);
+    cursor: default;
+}
+
+.config-badge.westerly {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.2);
+    color: var(--accent-blue);
+}
+
+.config-badge.easterly {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: var(--accent-amber);
+}
+
+.config-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Status badge */
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent-green);
+}
+
+.status-badge.error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: var(--accent-red);
+}
+
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.status-badge.error .pulse-dot {
+    background: var(--accent-red);
+    animation: none;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+/* ========================================
+   Main Layout
+   ======================================== */
+
+#main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ========================================
+   Map
+   ======================================== */
+
+#map-container {
+    flex: 1;
+    position: relative;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+}
+
+/* Override Leaflet tile pane for dark/medium theme */
+.leaflet-tile-pane {
+    filter: brightness(0.85) contrast(1.05) saturate(0.6);
+}
+
+[data-theme="light"] .leaflet-tile-pane {
+    filter: none;
+}
+
+[data-theme="light"] .leaflet-control-zoom a {
+    background: #fff !important;
+    color: #1e293b !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .leaflet-control-zoom a:hover {
+    background: #f1f5f9 !important;
+}
+
+[data-theme="light"] .leaflet-control-attribution {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #64748b !important;
+}
+
+[data-theme="light"] .leaflet-control-attribution a {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .leaflet-popup-content-wrapper {
+    background: #fff !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: #1e293b !important;
+}
+
+[data-theme="light"] .leaflet-popup-tip {
+    background: #fff !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.leaflet-control-zoom a {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: var(--bg-card-hover) !important;
+}
+
+.leaflet-control-attribution {
+    background: var(--bg-glass) !important;
+    color: var(--text-muted) !important;
+    font-size: 10px !important;
+}
+
+.leaflet-control-attribution a {
+    color: var(--text-secondary) !important;
+}
+
+/* Map legend */
+.map-legend {
+    position: absolute;
+    bottom: 24px;
+    left: 16px;
+    z-index: 1000;
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    min-width: 160px;
+    box-shadow: var(--shadow-lg);
+}
+
+.map-legend h4 {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 12px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+/* ========================================
+   Sidebar
+   ======================================== */
+
+#sidebar {
+    width: 380px;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.flight-count {
+    background: var(--accent-blue);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    min-width: 24px;
+    text-align: center;
+}
+
+.sidebar-controls {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#search-input {
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    outline: none;
+    transition: border-color var(--transition-fast);
+}
+
+#search-input::placeholder {
+    color: var(--text-muted);
+}
+
+#search-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Flight list */
+.flight-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px;
+}
+
+.flight-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.flight-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.flight-list::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 4px;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    gap: 16px;
+}
+
+.empty-state p {
+    font-size: 13px;
+}
+
+/* Flight card */
+.flight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.flight-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--card-accent, var(--runway-unknown));
+    border-radius: 3px 0 0 3px;
+}
+
+.flight-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-glow);
+    transform: translateX(2px);
+}
+
+.flight-card.active {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.flight-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.flight-callsign {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.3px;
+}
+
+.flight-runway-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(91, 100, 120, 0.2);
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+}
+
+.flight-card-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+}
+
+.flight-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.flight-detail-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.flight-detail-value {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+}
+
+/* Confidence bar */
+.confidence-bar {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.confidence-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width var(--transition-base);
+}
+
+.confidence-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    min-width: 28px;
+    text-align: right;
+}
+
+/* ========================================
+   Aircraft marker (Leaflet DivIcon)
+   ======================================== */
+
+.aircraft-marker-wrapper {
+    overflow: visible !important;
+}
+
+.aircraft-marker-wrapper>div {
+    transform: translate(-50%, -50%);
+}
+
+.aircraft-icon {
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+}
+
+.aircraft-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    margin-bottom: 2px;
+}
+
+[data-theme="light"] .aircraft-label {
+    color: #334155;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+/* Runway popup */
+.runway-label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+}
+
+[data-theme="light"] .runway-label {
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+    color: #334155;
+}
+
+[data-theme="light"] .aircraft-label {
+    color: #334155;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+/* ========================================
+   Theme Toggle
+   ======================================== */
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .theme-toggle {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.theme-toggle-track {
+    width: 32px;
+    height: 18px;
+    border-radius: 9px;
+    background: #475569;
+    position: relative;
+    transition: background var(--transition-fast);
+}
+
+[data-theme="light"] .theme-toggle-track {
+    background: #3b82f6;
+}
+
+.theme-toggle-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform var(--transition-fast);
+}
+
+[data-theme="light"] .theme-toggle-thumb {
+    transform: translateX(14px);
+}
+
+.theme-toggle-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* ========================================
+   Tooltip
+   ======================================== */
+
+.leaflet-popup-content-wrapper {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.leaflet-popup-tip {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.leaflet-popup-content {
+    margin: 12px 14px !important;
+    font-family: var(--font-sans) !important;
+    font-size: 13px !important;
+}
+
+.popup-title {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.popup-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    font-size: 12px;
+}
+
+.popup-label {
+    color: var(--text-muted);
+}
+
+.popup-value {
+    font-family: var(--font-mono);
+    font-weight: 500;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 900px) {
+    #main {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        height: 40vh;
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .subtitle {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    #header {
+        padding: 0 12px;
+        height: 48px;
+    }
+
+    .logo h1 {
+        font-size: 15px;
+    }
+
+    .config-badge,
+    .status-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
