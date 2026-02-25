@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRA Flight Tracker — Runway Prediction</title>
+    <meta name="description" content="Live flight tracker for Frankfurt Airport with runway landing prediction" />
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header id="header">
+            <div class="header-left">
+                <div class="logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.4-.1.9.3 1.1L11 12l-2 3H6l-1 1 3 2 2 3 1-1v-3l3-2 3.7 7.3c.2.4.7.5 1.1.3l.5-.3c.4-.2.5-.6.4-1.1z" />
+                    </svg>
+                    <h1>FRA Tracker</h1>
+                </div>
+                <span class="subtitle">Frankfurt Airport — Live Runway Prediction</span>
+            </div>
+            <div class="header-right">
+                <div id="config-badge" class="config-badge" title="Active runway configuration">
+                    <span class="config-dot"></span>
+                    <span id="config-label">Detecting...</span>
+                </div>
+                <div id="theme-toggle" class="theme-toggle" title="Toggle light/dark mode">
+                    <span class="theme-toggle-label">☀️</span>
+                    <div class="theme-toggle-track">
+                        <div class="theme-toggle-thumb"></div>
+                    </div>
+                </div>
+                <div id="status-badge" class="status-badge">
+                    <span class="pulse-dot"></span>
+                    <span id="status-text">Connecting...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <main id="main">
+            <!-- Map -->
+            <div id="map-container">
+                <div id="map"></div>
+                <div id="map-legend" class="map-legend">
+                    <h4>Predicted Runway</h4>
+                    <div class="legend-items" id="legend-items"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside id="sidebar">
+                <div class="sidebar-header">
+                    <h2>Arriving Flights</h2>
+                    <span id="flight-count" class="flight-count">0</span>
+                </div>
+                <div class="sidebar-controls">
+                    <input type="text" id="search-input" placeholder="Search callsign..." autocomplete="off" />
+                </div>
+                <div id="flight-list" class="flight-list">
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" opacity="0.4">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                        <p>Loading flight data...</p>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
